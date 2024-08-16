@@ -1,6 +1,6 @@
 # Search Bar
 ## Overview
-A simple search bar for searching through a list of user profiles (first name and last name data), created using React, Django, PostgreSQL and Docker.
+A simple dynamic search bar for searching through a list of user profiles (first name and last name data), created using React, Django, PostgreSQL and Docker.
 
 ## Setup
 ### Prerequisites
@@ -24,7 +24,7 @@ Make sure you have installed the following on your machine:
         ```sh
         docker ps
         ```
-    - Copy the container ID of the `searchbar_backend` container.
+    - Copy the container ID of the `searchbar-backend` container.
     - Run the following command to access the container's bash shell:
         ```sh
         docker exec -it <container_id> bash
@@ -34,14 +34,38 @@ Make sure you have installed the following on your machine:
         python manage.py migrate
         ```
 
-4. Access the REST API:
+4. Add Trigram Similarity extension to the database (if you have made any change in the database configuration in .env file, handle it accordingly):
+    - Run the following command to access the postgres `db` container's bash shell:
+        ```sh
+        docker exec -it <container_id> bash
+        ```
+    - Run the following command to access the PostgreSQL database shell:
+        ```sh
+        psql -h localhost -U postgres
+        ```
+    - Run the following commands to add the Trigram extension to the database:
+        ```sh
+        \c demo_postgres
+        ```
+        ```sh
+        CREATE EXTENSION pg_trgm;
+        ```
+        ```sh
+        \q
+        ```
+    - Exit the bash shell:
+        ```sh
+        exit
+        ```
+
+5. Access the REST API:
     - Open a web browser and go to http://localhost:8000/api/profiles/ to view the list of user profiles.
     - Make a GET, POST, PUT or DELETE request to interact with the user profile data in the database.
 
-5. Access the frontend:
+6. Access the frontend:
     - Open a web browser and go to http://localhost:3000/ to view the search bar.
 
-6. To stop the Docker container, use `Ctrl + C` in the terminal window where the container is running.
+7. To stop the Docker container, use `Ctrl + C` in the terminal window where the container is running.
 
 ## Author
 [Tanish Pagaria](https://github.com/yorozuya-2003)  

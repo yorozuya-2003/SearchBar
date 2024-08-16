@@ -33,7 +33,8 @@ class ProfileList(APIView):
             
             query_filters = Q()
             for part in query_parts:
-                query_filters |= Q(first_name__icontains=part) | Q(last_name__icontains=part)
+                # query_filters |= Q(first_name__icontains=part) | Q(last_name__icontains=part)
+                query_filters |= Q(first_name__trigram_similar=part) | Q(last_name__trigram_similar=part)
 
             profiles = Profile.objects.filter(query_filters).order_by('first_name').values()
         else:
